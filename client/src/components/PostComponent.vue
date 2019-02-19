@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>Latest Posts</h1>
+    <h1>Lightning Image</h1>
     <img class='var-image' v-bind:src='imgURL'>
     <div class="create-post">
       <input type="text" id="create-post" v-model="text" placeholder="Enter image url">
@@ -31,7 +31,7 @@ export default {
       posts: [],
       error: '',
       text: '',
-      imgURL: 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/153/high-voltage-sign_26a1.png' 
+      imgURL: 'https://imgur.com/gallery/viVcTZ5'
     }
   },
   async created() {

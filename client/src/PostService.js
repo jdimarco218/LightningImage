@@ -25,10 +25,15 @@ class PostService {
     static getMostRecentPost() {
         return new Promise(async (resolve, reject) => {
             try {
+                var result = 'https://i.imgur.com/viVcTZ5.png';
+                //data.array.forEach(element => {
+                //    if (element.)
+                //});
                 const res = await axios.get(url);
                 const data = res.data;
                 //console.log(`getMostRecentPost(): ${data[data.length - 1].text}`);
-                resolve(data[data.length - 1].text);
+                //resolve(data[data.length - 1].text);
+                resolve(result);
             } catch(err) {
                 reject(err);
             }
@@ -44,14 +49,21 @@ class PostService {
             };
             var body = '{ \"amount\": 100 }';
 
+            console.log(`time to do some lightning!`);
             return axios.post('https://dev-api.opennode.co/v1/charges', body, {headers: headers})
             .then(function (response) {
-                console.log(responser);
+                if (response.status === 201) {
+                    console.log(`new charge_id: ${response.data.data.id}`);
+                    axios.post(url, {
+                        text: text,
+                        charge_id: response.data.data.id
+                    });
+                }
+                console.log(response);
             })
             .catch(function (error) {
                 console.log(error);
             })
-            console.log(`time to do some lightning!`);
         } else {
             return axios.post(url, {
                 text: text
