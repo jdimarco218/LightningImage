@@ -1,7 +1,6 @@
 const axios   = require('axios');
 const express = require('express');
 const mongodb = require('mongodb');
-const https   = require('https');
 
 const router = express.Router();
 
@@ -16,7 +15,7 @@ router.get('/main/', async(req, res) => {
     const posts = await loadPostsCollection();
     var postsArray = await posts.find({}).toArray();
     var notFound = true;
-    var responseVal = [];
+    var responseVal = 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/153/high-voltage-sign_26a1.png';
     for (var i = postsArray.length - 1; notFound && i >= 0; i--) {
         if (postsArray[i].hasOwnProperty("charge_id")) {
             const chargeUrl = 'https://dev-api.opennode.co/v1/charge/' + postsArray[i]["charge_id"];
@@ -38,6 +37,18 @@ router.get('/main/', async(req, res) => {
     }
     console.log("Done.");
     await res.status(200).send(responseVal);
+});
+
+// Check for new main post
+router.get('/update/', async(req, res) => {
+    console.log("UPDATE MADE IT WOO");
+    await res.status(200).send();
+});
+
+// Check for new main post
+router.post('/update/', async(req, res) => {
+    console.log("UPDATE POST MADE IT WOO");
+    await res.status(200).send();
 });
 
 //Add Posts
