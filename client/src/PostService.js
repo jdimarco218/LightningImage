@@ -44,7 +44,8 @@ class PostService {
 
     // Create Post
     static insertPost(text){
-        if (text.slice(-4) === '.jpg') {
+        //if (text.slice(-4) === '.jpg') {
+        if ((/(http)?s?:?(\/\/[^"']*\.(?:png|jpg|jpeg|gif|png|svg))/).test(text)) {
             var headers = {
                     'Content-Type': 'application/json',
                     'Authorization': 'bd5ecb21-6fba-4cfa-949c-a5c70149ad27'
