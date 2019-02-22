@@ -6,19 +6,9 @@
       <input type="text" id="create-post" v-model="text" placeholder="Enter image url">
       <button v-on:click="createPost">Post!</button>
     </div>
+    <span>Invoice: {{invoice}}</span>
     <hr>
     <p class="error" v-if="error">{{error}}</p>
-    <div class="posts-container">
-      <div class="post" 
-        v-for="(post, index) in posts"
-        v-bind:item="post"
-        v-bind:index="index"
-        v-bind:key="post._id"
-        v-on:dblclick="deletePost(post._id)"> 
-        {{ `${post.createdAt.getDate()}/${post.createdAt.getMonth()}/${post.createdAt.getFullYear()}` }}
-        <p class="text">{{post.text}}</p>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -32,7 +22,8 @@ export default {
       posts: [],
       error: '',
       text: '',
-      imgURL: 'https://imgur.com/gallery/viVcTZ5'
+      imgURL: 'https://imgur.com/gallery/viVcTZ5',
+      invoice: ''
     }
   },
   sockets: {
@@ -58,7 +49,7 @@ export default {
   },
   methods: {
     async createPost() {
-      await PostService.insertPost(this.text);
+      this.invoice = await PostService.insertPost(this.text);
       this.posts = await PostService.getPosts();
       await this.getMostRecentPost();
     },

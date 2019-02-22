@@ -62,6 +62,8 @@ class PostService {
                     });
                 }
                 console.log(response);
+                console.log(`insertPost returning: ${response.data.data.lightning_invoice.payreq}`);
+                return response.data.data.lightning_invoice.payreq;
             })
             .catch(function (error) {
                 console.log(error);

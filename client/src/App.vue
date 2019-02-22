@@ -1,11 +1,9 @@
 <template>
   <div id="app">
-    <img class='main-image' v-bind:src='imgURL'>
     <PostComponent />
   </div>
 </template>
 
-<script src="http://cdn.socket.io/stable/socket.io.js"></script>
 <script>
 import PostComponent from './components/PostComponent.vue'
 
@@ -29,11 +27,11 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 20px;
 }
 
 img.main-image {
-  max-width: 50px;
+  max-width: 30px;
   height: auto;
   width: auto\9; /* ie8 */
 }
