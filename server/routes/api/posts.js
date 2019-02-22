@@ -48,6 +48,11 @@ router.get('/update/', async(req, res) => {
 // Check for new main post
 router.post('/update/', async(req, res) => {
     console.log("UPDATE POST MADE IT WOO");
+    io.send('update sending blah');
+    io.emit('message', {
+        type: 'update',
+        message: 'updated bro'
+    });
     await res.status(200).send();
 });
 

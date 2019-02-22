@@ -5,6 +5,7 @@
   </div>
 </template>
 
+<script src="http://cdn.socket.io/stable/socket.io.js"></script>
 <script>
 import PostComponent from './components/PostComponent.vue'
 

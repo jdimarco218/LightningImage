@@ -3,6 +3,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const app = express();
+var http = require('http');
+const port = process.env.PORT || 5000;
 
 // Middleware
 app.use(bodyParser.json());
@@ -18,6 +20,21 @@ app.get('/', (req, res) => res.sendFile(__dirname + '/public/index.html'));
 
 app.use('/api/posts', posts);
 
-const port = process.env.PORT || 5000;
 
-app.listen(port, () => console.log(`Server started on port ${port}`));
+//app.listen(port, () => console.log(`Server started on port ${port}`));
+var server = http.createServer(app);
+global.io = require('socket.io').listen(server);
+server.listen(port);
+io.set("origins", "*:*");
+
+// Add a connect listener
+io.on('connection', function(client){ 
+    console.log('server side socket connection made!');
+    // Success!  Now listen to messages to be received
+    client.on('message',function(event){ 
+        console.log('Received message from client!',event);
+    });
+    client.on('disconnect',function(){
+        console.log('Server has disconnected');
+    });
+});

@@ -22,6 +22,7 @@
   </div>
 </template>
 
+<script src="http://cdn.socket.io/stable/socket.io.js"></script>
 <script>
 import PostService from '../PostService';
 export default {
@@ -34,8 +35,21 @@ export default {
       imgURL: 'https://imgur.com/gallery/viVcTZ5'
     }
   },
+  sockets: {
+    connect() {
+      console.log("client connected to socket");
+    },
+    disconnect() {
+      console.log("client disconnected from socket");
+    },
+    message(data) {
+      console.log(`socket message: ${data}`);
+      this.getMostRecentPost();
+    }
+  },
   async created() {
     try {
+      //this.$socket.emit('pingServer', 'PING!');
       this.posts = await PostService.getPosts();
       this.getMostRecentPost();
     } catch(err) {
