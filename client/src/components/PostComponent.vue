@@ -1,7 +1,24 @@
 <template>
   <div class="container">
-    <h1>Lightning Image</h1>
+  <div class="topnav">
+    <img class="topimg" src="..\assets\lightningEmojiSmall.png">
+    <a href="#">Lightning Image</a>
+      <div class="topnav-right">
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+      </div>
+  </div>
+  <body>
     <img class='var-image' v-bind:src='imgURL'>
+    <div class='caption-content'>Lightning Caption</div>
+    <hr>
+    <div class="create-post">
+      <input type="text" id="create-post" v-model="text" placeholder="Enter image url">
+      <button v-on:click="createPost">Post!</button>
+    </div>
+    <span>Invoice: {{invoice}}</span>
+    <hr>
     <div class="create-post">
       <input type="text" id="create-post" v-model="text" placeholder="Enter image url">
       <button v-on:click="createPost">Post!</button>
@@ -9,6 +26,7 @@
     <span>Invoice: {{invoice}}</span>
     <hr>
     <p class="error" v-if="error">{{error}}</p>
+  </body>
   </div>
 </template>
 
@@ -72,6 +90,60 @@ div.container {
   max-width: 800px;
   margin: 0 auto;
 }
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.topnav-right {
+  float: right;
+}
+
+img.topimg {
+  height: 30px;
+  margin-left: 10px;
+  margin-top: 10px;
+  float: left;
+}
+
+div.topnav {
+  background-color: rgb(168, 168, 168);
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  box-shadow: 0 0 25px 0 rgb(168, 168, 168);
+}
+
+div.header-right {
+  float: right;
+}
+
+body {
+  margin-top: 50px;
+  padding: 10px;
+}
 
 p.error {
   border: 1px solid #ff5b5f;
@@ -86,6 +158,12 @@ div.post {
   background-color: #bcffb8;
   padding: 10px 10px 30px 10px;
   margin-bottom: 15px;
+}
+
+div.caption-content {
+  font-size:1.5rem;
+  display: block;
+  padding-bottom:2rem;
 }
 
 div.created-at {
