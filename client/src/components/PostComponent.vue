@@ -23,7 +23,9 @@
       <input type="text" id="create-post" v-model="text" placeholder="Enter image url">
       <button v-on:click="createPost">Post!</button>
     </div>
-    <span>Invoice: {{invoice}}</span>
+    <span>Invoice: 
+      <qr-code text="lnbc10u1pw8p4fupp5n5qhh56v7mjc4zr2nzg5yc5j70k05v85z939h34474ck9kpx5j3sdqlxycrqvpqwdshgueqvfjhggr0dcsry7qcqzysd5r5ravasu90algac9meze450tf0q7tktkmgl38th8hymy7sfy2jh02du8ajs6e03lehj5xznw7n6xl7l0q30hvu96tdmyjp9a8x46cppwa0pn"></qr-code>
+    </span>
     <hr>
     <p class="error" v-if="error">{{error}}</p>
   </body>
