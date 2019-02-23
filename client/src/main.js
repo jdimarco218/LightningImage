@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import App from './App.vue'
-import socketio from 'socket.io-client';
 import VueSocketIO from 'vue-socket.io';
+import VueSwal from 'vue-swal'
 
-//export const SocketInstance = socketio('http://localhost:5000');
-//Vue.use(VueSocketIO, SocketInstance);
+Vue.use(VueSwal);
+
 Vue.use(new VueSocketIO({
     debug: true,
-    connection: 'http://localhost:5000',
+    connection: 'http://69.141.47.76:5008',
 }))
 Vue.config.productionTip = false
 

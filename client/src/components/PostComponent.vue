@@ -40,7 +40,7 @@ export default {
   },
   async created() {
     try {
-      //this.$socket.emit('pingServer', 'PING!');
+      //this.$swal('Hello world!');
       this.posts = await PostService.getPosts();
       this.getMostRecentPost();
     } catch(err) {

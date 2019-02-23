@@ -26,15 +26,10 @@ class PostService {
         return new Promise(async (resolve, reject) => {
             try {
                 var result = 'https://i.imgur.com/viVcTZ5.png';
-                //data.array.forEach(element => {
-                //    if (element.)
-                //});
                 const mainPostUrl = 'api/posts/main/';
                 const res = await axios.get(mainPostUrl);
                 console.log('res from main: ');
                 console.log(res.data);
-                //console.log(`getMostRecentPost(): ${data[data.length - 1].text}`);
-                //resolve(data[data.length - 1].text);
                 resolve(res.data);
             } catch(err) {
                 reject(err);
@@ -50,7 +45,7 @@ class PostService {
                     'Content-Type': 'application/json',
                     'Authorization': 'bd5ecb21-6fba-4cfa-949c-a5c70149ad27'
             };
-            var body = '{ \"amount\": 100, \"callback_url\": \"http://69.141.47.76:5000/api/posts/update\" }';
+            var body = '{ \"amount\": 100, \"callback_url\": \"http://69.141.47.76:5008/api/posts/update\" }';
 
             console.log(`time to do some lightning!`);
             return axios.post('https://dev-api.opennode.co/v1/charges', body, {headers: headers})
