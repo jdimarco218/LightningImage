@@ -18,7 +18,7 @@
       <input class="create-post-input" type="text" id="create-post" v-model="text" placeholder="Enter image url">
       <button class="create-post-btn" v-on:click="createPost" v-b-modal.modal-tall>Post!</button>
       <!-- Modal Component -->
-      <b-modal id="modal-tall" ok-only centered scrollable title="Lighting invoice">
+      <b-modal ref="imageModal" id="modal-tall" ok-only centered scrollable title="Lighting invoice">
         <p class="my-4">{{this.invoice}}</p>
         <hr>
         <p>
@@ -32,7 +32,7 @@
       <div class = "row text-center">
           <input class="create-post-input" type="text" id="create-post-2" v-model="inputCaption" placeholder="Enter caption">
           <button class="create-post-btn" v-on:click="createCaption" v-b-modal.modal-tall-caption>Post!</button>
-          <b-modal id="modal-tall-caption" ok-only centered scrollable title="Lighting invoice">
+          <b-modal ref="captionModal" id="modal-tall-caption" ok-only centered scrollable title="Lighting invoice">
             <p class="my-4">{{this.invoice2}}</p>
             <hr>
             <p>
@@ -76,10 +76,12 @@ export default {
     message(data) {
       console.log(`socket message: ${data}`);
       this.getMostRecentPost();
+      this.closePostPopup();
     },
     captionMsg(data) {
       console.log(`socket message: ${data}`);
       this.getMostRecentCaption();
+      this.closeCaptionPopup();
     }
   },
   async created() {
@@ -111,6 +113,12 @@ export default {
     async createCaption() {
       this.invoice2 = await PostService.insertCaption(this.inputCaption);
       await this.getMostRecentCaption();
+    },
+    async closePostPopup() {
+      this.$refs.imageModal.hide();
+    },
+    async closeCaptionPopup() {
+      this.$refs.captionModal.hide();
     }
   }
 
