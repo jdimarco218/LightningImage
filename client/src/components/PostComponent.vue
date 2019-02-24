@@ -11,7 +11,7 @@
   </div>
   <body>
     <img class='var-image' v-bind:src='imgURL'>
-    <div class='caption-content'>Lightning Caption</div>
+    <div class='caption-content'> {{ caption }} </div>
     <hr>
     <div class="create-post">
       <input type="text" id="create-post" v-model="text" placeholder="Enter image url">
@@ -19,14 +19,13 @@
     </div>
     <span>Invoice: {{invoice}}</span>
     <hr>
-    <div class="create-post">
-      <input type="text" id="create-post" v-model="text" placeholder="Enter image url">
-      <button v-on:click="createPost">Post!</button>
+    <div class="create-post-2">
+      <input type="text" id="create-post-2" v-model="inputCaption" placeholder="Enter caption">
+      <button v-on:click="createCaption">Post!</button>
     </div>
-    <span>Invoice: 
-      <qr-code text="lnbc10u1pw8p4fupp5n5qhh56v7mjc4zr2nzg5yc5j70k05v85z939h34474ck9kpx5j3sdqlxycrqvpqwdshgueqvfjhggr0dcsry7qcqzysd5r5ravasu90algac9meze450tf0q7tktkmgl38th8hymy7sfy2jh02du8ajs6e03lehj5xznw7n6xl7l0q30hvu96tdmyjp9a8x46cppwa0pn"></qr-code>
-    </span>
+    <span>Invoice: {{invoice2}}</span>
     <hr>
+    <!--  <qr-code text="lnbc10u1pw8p4fupp5n5qhh56v7mjc4zr2nzg5yc5j70k05v85z939h34474ck9kpx5j3sdqlxycrqvpqwdshgueqvfjhggr0dcsry7qcqzysd5r5ravasu90algac9meze450tf0q7tktkmgl38th8hymy7sfy2jh02du8ajs6e03lehj5xznw7n6xl7l0q30hvu96tdmyjp9a8x46cppwa0pn"></qr-code>-->
     <p class="error" v-if="error">{{error}}</p>
   </body>
   </div>
@@ -43,7 +42,10 @@ export default {
       error: '',
       text: '',
       imgURL: 'https://imgur.com/gallery/viVcTZ5',
-      invoice: ''
+      invoice: '',
+      invoice2: '',
+      inputCaption: '',
+      caption: 'Lightning Caption'
     }
   },
   sockets: {
@@ -56,6 +58,10 @@ export default {
     message(data) {
       console.log(`socket message: ${data}`);
       this.getMostRecentPost();
+    },
+    captionMsg(data) {
+      console.log(`socket message: ${data}`);
+      this.getMostRecentCaption();
     }
   },
   async created() {
@@ -63,6 +69,7 @@ export default {
       //this.$swal('Hello world!');
       this.posts = await PostService.getPosts();
       this.getMostRecentPost();
+      this.getMostRecentCaption();
     } catch(err) {
       this.error = err.message;
     }
@@ -80,6 +87,13 @@ export default {
     },
     async getMostRecentPost() {
       this.imgURL = await PostService.getMostRecentPost();
+    },
+    async getMostRecentCaption() {
+      this.caption = await PostService.getMostRecentCaption();
+    },
+    async createCaption() {
+      this.invoice2 = await PostService.insertCaption(this.inputCaption);
+      await this.getMostRecentCaption();
     }
   }
 
