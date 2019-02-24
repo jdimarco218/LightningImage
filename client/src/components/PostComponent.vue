@@ -11,29 +11,47 @@
   </div>
   <body>
     <img class='var-image' v-bind:src='imgURL'>
-    <div class='caption-content'> {{ caption }} </div>
+    <div style="text-align:center;" class='caption-content'> {{ caption }} </div>
     <hr>
     <div class="create-post">
-      <input type="text" id="create-post" v-model="text" placeholder="Enter image url">
-      <button v-on:click="createPost">Post!</button>
+      <div class = "row text-center">
+      <input class="create-post-input" type="text" id="create-post" v-model="text" placeholder="Enter image url">
+      <button class="create-post-btn" v-on:click="createPost" v-b-modal.modal-tall>Post!</button>
+      <!-- Modal Component -->
+      <b-modal id="modal-tall" ok-only centered scrollable title="Lighting invoice">
+        <p class="my-4">{{this.invoice}}</p>
+        <hr>
+        <p>
+        <qrcode :value='invoice' :options="{ width: 200 }"></qrcode>
+        </p>
+      </b-modal>
+      </div>
     </div>
-    <span>Invoice: {{invoice}}</span>
     <hr>
     <div class="create-post-2">
-      <input type="text" id="create-post-2" v-model="inputCaption" placeholder="Enter caption">
-      <button v-on:click="createCaption">Post!</button>
+      <div class = "row text-center">
+          <input class="create-post-input" type="text" id="create-post-2" v-model="inputCaption" placeholder="Enter caption">
+          <button class="create-post-btn" v-on:click="createCaption" v-b-modal.modal-tall-caption>Post!</button>
+          <b-modal id="modal-tall-caption" ok-only centered scrollable title="Lighting invoice">
+            <p class="my-4">{{this.invoice2}}</p>
+            <hr>
+            <p>
+            <qrcode :value='invoice2' :options="{ width: 200 }"></qrcode>
+            </p>
+          </b-modal>
+      </div>
     </div>
-    <span>Invoice: {{invoice2}}</span>
     <hr>
-    <!--  <qr-code text="lnbc10u1pw8p4fupp5n5qhh56v7mjc4zr2nzg5yc5j70k05v85z939h34474ck9kpx5j3sdqlxycrqvpqwdshgueqvfjhggr0dcsry7qcqzysd5r5ravasu90algac9meze450tf0q7tktkmgl38th8hymy7sfy2jh02du8ajs6e03lehj5xznw7n6xl7l0q30hvu96tdmyjp9a8x46cppwa0pn"></qr-code>-->
     <p class="error" v-if="error">{{error}}</p>
   </body>
   </div>
 </template>
 
 <script src="http://cdn.socket.io/stable/socket.io.js"></script>
+<script src="sweetalert2/dist/sweetalert2.all.min.js"></script>
 <script>
 import PostService from '../PostService';
+import Swal from 'sweetalert2';
 export default {
   name: 'PostComponent',
   data() {
@@ -66,7 +84,6 @@ export default {
   },
   async created() {
     try {
-      //this.$swal('Hello world!');
       this.posts = await PostService.getPosts();
       this.getMostRecentPost();
       this.getMostRecentCaption();
@@ -118,6 +135,10 @@ div.container {
   padding: 14px 16px;
   text-decoration: none;
   font-size: 17px;
+}
+
+.modal-body p {
+  word-wrap: break-word;
 }
 
 .topnav a:hover {
@@ -176,9 +197,21 @@ div.post {
   margin-bottom: 15px;
 }
 
+.create-post-input {
+  display: block;
+  margin-left : auto;
+  margin-right : 0;
+}
+.create-post-btn {
+  display: block;
+  margin-left : 0;
+  margin-right : auto;
+}
+
 div.caption-content {
   font-size:1.5rem;
   display: block;
+  margin: auto;
   padding-bottom:2rem;
 }
 
