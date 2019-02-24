@@ -9,8 +9,8 @@
         <a href="#">Contact</a>
       </div>
   </div>
-  <body>
-    <img class='var-image' v-bind:src='imgURL'>
+  <body class="jBod">
+    <b-img center class="var-image center-block" v-bind:src='imgURL'/>
     <div style="text-align:center;" class='caption-content'> {{ caption }} </div>
     <hr>
     <div class="create-post">
@@ -60,8 +60,8 @@ export default {
       error: '',
       text: '',
       imgURL: 'https://imgur.com/gallery/viVcTZ5',
-      invoice: '',
-      invoice2: '',
+      invoice: 'dummyText',
+      invoice2: 'dummyText',
       inputCaption: '',
       caption: 'Lightning Caption'
     }
@@ -130,10 +130,11 @@ export default {
 div.container {
   max-width: 800px;
   margin: 0 auto;
+  background-color: transparent;
 }
 .topnav {
   overflow: hidden;
-  background-color: #333;
+  background-color:rgb(0, 0, 0);
 }
 
 .topnav a {
@@ -143,6 +144,10 @@ div.container {
   padding: 14px 16px;
   text-decoration: none;
   font-size: 17px;
+}
+
+.jBod {
+  background-color: transparent;
 }
 
 .modal-body p {
@@ -171,14 +176,14 @@ img.topimg {
 }
 
 div.topnav {
-  background-color: rgb(168, 168, 168);
+  background-color: rgb(75, 75, 75);
   overflow: hidden;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   height: 50px;
-  box-shadow: 0 0 25px 0 rgb(168, 168, 168);
+  box-shadow: 0 0 25px 0 rgb(75, 75, 75);
 }
 
 div.header-right {
