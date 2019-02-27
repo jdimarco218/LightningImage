@@ -77,11 +77,13 @@ export default {
       console.log(`socket message: ${data}`);
       this.getMostRecentPost();
       this.closePostPopup();
+      this.text = '';
     },
     captionMsg(data) {
       console.log(`socket message: ${data}`);
       this.getMostRecentCaption();
       this.closeCaptionPopup();
+      this.inputCaption = '';
     }
   },
   async created() {
@@ -176,14 +178,14 @@ img.topimg {
 }
 
 div.topnav {
-  background-color: rgb(75, 75, 75);
+  background-color: rgb(90, 90, 90);
   overflow: hidden;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   height: 50px;
-  box-shadow: 0 0 25px 0 rgb(75, 75, 75);
+  box-shadow: 0 0 25px 0 rgb(90, 90, 90);
 }
 
 div.header-right {
