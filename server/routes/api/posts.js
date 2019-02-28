@@ -42,14 +42,12 @@ router.get('/cost', async(req, res) => {
     var responseVal = await posts.find({"paid":true}).sort({"createdAt":-1}).limit(1).toArray();
     if (responseVal !== 'undefined') {
         var prevCost = responseVal[0].amountPaid;
-        console.log(`prevCost: ${prevCost}`);
         if (prevCost !== 'undefined' && prevCost !== 0) {
             var currTime = new Date();
             var paidTime = new Date(responseVal[0].paidAt);
             var timeDiff = currTime - paidTime;
             var minutesDiff = Math.floor(timeDiff / 60e3); // Minutes ago
             var numHalves = Math.floor(minutesDiff / 5); // Cut cost in half for every 5 minutes
-            console.log(`currTime:${currTime} paidTime:${paidTime} timeDiff:${timeDiff} minutesDiff:${minutesDiff} numHalves:${numHalves}`);
 
             // Set the resulting cost to be either the most recently paid amount
             // halved numHalves times, or the baseCost if it goes below that. If
