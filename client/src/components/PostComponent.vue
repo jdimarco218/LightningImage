@@ -1,7 +1,7 @@
 <template>
   <div class="container">
   <div class="topnav">
-    <img class="topimg" src="..\assets\lightningEmojiSmall.png">
+    <img class="topimg" src="../assets/lightningEmojiSmall.png">
     <a href="#">Lightning Image</a>
       <div class="topnav-right">
         <a href="#">Home</a>
