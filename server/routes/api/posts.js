@@ -243,7 +243,7 @@ async function loadPostsCollection() {
 
       return client.db('vue_express').collection('posts');
     } catch(err) {
-        alert(`Db connection error: ${err}`);
+        console.log(`Db connection error: ${err}`);
         return [];
     }
 }
@@ -254,7 +254,7 @@ async function loadCaptionsCollection() {
 
       return client.db('vue_express').collection('captions');
     } catch(err) {
-        alert(`Db connection error: ${err}`);
+        console.log(`Db connection error: ${err}`);
         return [];
     }
 }
