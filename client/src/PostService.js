@@ -150,6 +150,18 @@ class PostService {
     static deletePost(id){
         return axios.delete(`${url}${id}`);
     }
+
+    static async getImageCost(){
+        var result = await axios.get(postCostUrl);
+        console.log(`getImageCost: ${JSON.stringify(result.data)}`);
+        return JSON.stringify(result.data);
+    }
+
+    static async getCaptionCost(){
+        var result = await axios.get(captionCostUrl);
+        console.log(`getCaptionCost: ${JSON.stringify(result.data)}`);
+        return JSON.stringify(result.data);
+    }
 }
 
 export default PostService;

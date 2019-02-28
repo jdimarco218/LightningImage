@@ -15,6 +15,7 @@
     <hr>
     <div class="create-post">
       <div class = "row text-center">
+      <div class="well well-sm imgCostStyle">{{imgCost}} sats</div>
       <input class="create-post-input" type="text" id="create-post" v-model="text" placeholder="Enter image url">
       <button class="create-post-btn" v-on:click="createPost" v-b-modal.modal-tall>Post!</button>
       <!-- Modal Component -->
@@ -30,6 +31,7 @@
     <hr>
     <div class="create-post-2">
       <div class = "row text-center">
+          <div class="well well-sm capCostStyle">{{captionCost}} sats</div>
           <input class="create-post-input" type="text" id="create-post-2" v-model="inputCaption" placeholder="Enter caption">
           <button class="create-post-btn" v-on:click="createCaption" v-b-modal.modal-tall-caption>Post!</button>
           <b-modal ref="captionModal" id="modal-tall-caption" ok-only centered scrollable title="Lighting invoice">
@@ -63,7 +65,9 @@ export default {
       invoice: 'Loading...',
       invoice2: 'Loading...',
       inputCaption: '',
-      caption: 'Lightning Caption'
+      caption: 'Lightning Caption',
+      imgCost: '1000',
+      captionCost: '1000'
     }
   },
   sockets: {
@@ -76,12 +80,14 @@ export default {
     message(data) {
       console.log(`socket message: ${data}`);
       this.getMostRecentPost();
+      this.getImageCost();
       this.closePostPopup();
       this.text = '';
     },
     captionMsg(data) {
       console.log(`socket message: ${data}`);
       this.getMostRecentCaption();
+      this.getCaptionCost();
       this.closeCaptionPopup();
       this.inputCaption = '';
     }
@@ -91,6 +97,8 @@ export default {
       this.posts = await PostService.getPosts();
       this.getMostRecentPost();
       this.getMostRecentCaption();
+      this.getImageCost();
+      this.getCaptionCost();
     } catch(err) {
       this.error = err.message;
     }
@@ -111,6 +119,12 @@ export default {
     },
     async getMostRecentCaption() {
       this.caption = await PostService.getMostRecentCaption();
+    },
+    async getImageCost() {
+      this.imgCost = await PostService.getImageCost();
+    },
+    async getCaptionCost() {
+      this.captionCost = await PostService.getCaptionCost();
     },
     async createCaption() {
       this.invoice2 = await PostService.insertCaption(this.inputCaption);
@@ -217,6 +231,18 @@ div.post {
   margin-left : auto;
   margin-right : 0;
 }
+
+.imgCostStyle {
+  display: block;
+  margin-left : auto;
+  margin-right : 0;
+}
+.capCostStyle {
+  display: block;
+  margin-left : auto;
+  margin-right : 0;
+}
+
 .create-post-btn {
   display: block;
   margin-left : 0;
