@@ -7,6 +7,8 @@ const router = express.Router();
 var dbUrl = 'mongodb+srv://Jeff:DoubleDownml5333!@cluster0-rigj4.mongodb.net/test?retryWrites=true';
 var dbConnection = mongodb.MongoClient.connect(dbUrl);
 const baseCost = 1000;
+var dbPosts;
+var dbCaptions;
     
 
 // Get Posts
@@ -239,9 +241,11 @@ router.delete('/:id', async(req, res) => {
 
 async function loadPostsCollection() {
     try {
-      const client = await mongodb.MongoClient.connect('mongodb+srv://Jeff:DoubleDownml5333!@cluster0-rigj4.mongodb.net/test?retryWrites=true', {useNewUrlParser: true});
-
-      return client.db('vue_express').collection('posts');
+        if (!dbPosts) {
+            const client = await mongodb.MongoClient.connect('mongodb+srv://Jeff:DoubleDownml5333!@cluster0-rigj4.mongodb.net/test?retryWrites=true', {useNewUrlParser: true});
+            dbPosts = client.db('vue_express').collection('posts');
+        }
+        return dbPosts;
     } catch(err) {
         console.log(`Db connection error: ${err}`);
         return [];
@@ -250,9 +254,11 @@ async function loadPostsCollection() {
 
 async function loadCaptionsCollection() {
     try {
-      const client = await mongodb.MongoClient.connect('mongodb+srv://Jeff:DoubleDownml5333!@cluster0-rigj4.mongodb.net/test?retryWrites=true', {useNewUrlParser: true});
-
-      return client.db('vue_express').collection('captions');
+        if (!dbCaptions) {
+            const client = await mongodb.MongoClient.connect('mongodb+srv://Jeff:DoubleDownml5333!@cluster0-rigj4.mongodb.net/test?retryWrites=true', {useNewUrlParser: true});
+            dbCaptions = client.db('vue_express').collection('captions');
+        }
+        return dbCaptions;
     } catch(err) {
         console.log(`Db connection error: ${err}`);
         return [];
