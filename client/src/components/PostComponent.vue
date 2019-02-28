@@ -60,8 +60,8 @@ export default {
       error: '',
       text: '',
       imgURL: 'https://imgur.com/gallery/viVcTZ5',
-      invoice: 'dummyText',
-      invoice2: 'dummyText',
+      invoice: 'Loading...',
+      invoice2: 'Loading...',
       inputCaption: '',
       caption: 'Lightning Caption'
     }
