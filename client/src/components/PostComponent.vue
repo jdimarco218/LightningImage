@@ -4,9 +4,7 @@
     <img class="topimg" src="../assets/lightningEmojiSmall.png">
     <a href="#">Lightning Image</a>
       <div class="topnav-right">
-        <a href="#">Home</a>
-        <a href="#">About</a>
-        <a href="#">Contact</a>
+        <a href="#">FAQ</a>
       </div>
   </div>
   <body class="jBod">
@@ -19,7 +17,7 @@
       <input class="create-post-input" type="text" id="create-post" v-model="text" placeholder="Enter image url">
       <button class="create-post-btn" v-on:click="createPost" v-b-modal.modal-tall>Post!</button>
       <!-- Modal Component -->
-      <b-modal ref="imageModal" id="modal-tall" ok-only centered scrollable title="Lighting invoice">
+      <b-modal ref="imageModal" id="modal-tall" ok-only centered scrollable title="Lightning invoice">
         <p class="my-4">{{this.invoice}}</p>
         <hr>
         <p>
@@ -34,7 +32,7 @@
           <div class="well well-sm capCostStyle">{{captionCost}} sats</div>
           <input class="create-post-input" type="text" id="create-post-2" v-model="inputCaption" placeholder="Enter caption">
           <button class="create-post-btn" v-on:click="createCaption" v-b-modal.modal-tall-caption>Post!</button>
-          <b-modal ref="captionModal" id="modal-tall-caption" ok-only centered scrollable title="Lighting invoice">
+          <b-modal ref="captionModal" id="modal-tall-caption" ok-only centered scrollable title="Lightning invoice">
             <p class="my-4">{{this.invoice2}}</p>
             <hr>
             <p>
