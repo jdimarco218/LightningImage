@@ -70,7 +70,10 @@ router.post('/update/', async(req, res) => {
                     console.log(`paidAt: ${paidAt}`);
                     posts.findOneAndUpdate(
                         { "charge_id": response.data.data.id },
-                        { $set: {"paid": true, "paidAt": new Date() } },
+                        { $set: {
+                            "paid": true, 
+                            "paidAt": new Date(),
+                            "amount": response.data.data.amount } },
                         { upsert: true}
                     );
                 }
@@ -113,7 +116,10 @@ router.post('/update/captions', async(req, res) => {
                     console.log(`paidAt: ${paidAt}`);
                     posts.findOneAndUpdate(
                         { "charge_id": response.data.data.id },
-                        { $set: {"paid": true, "paidAt": paidAt.toISOString() } },
+                        { $set: {
+                            "paid": true, 
+                            "paidAt": paidAt.toISOString(),
+                            "amountPaid": response.data.data.amount} },
                         { upsert: true}
                     );
                 }
@@ -141,7 +147,8 @@ router.post('/', async(req, res) => {
         createdAt: createdAt,
         paidAt: createdAt,
         charge_id: req.body.charge_id,
-        paid: false
+        paid: false,
+        amountPaid: 0
     });
     res.status(201).send();
 });
@@ -155,7 +162,8 @@ router.post('/captions', async(req, res) => {
         createdAt: createdAt,
         paidAt: createdAt,
         charge_id: req.body.charge_id,
-        paid: false
+        paid: false,
+        amountPaid: 0
     });
     res.status(201).send();
 });
