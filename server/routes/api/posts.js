@@ -6,6 +6,7 @@ const router = express.Router();
 
 var dbUrl = 'mongodb+srv://Jeff:DoubleDownml5333!@cluster0-rigj4.mongodb.net/test?retryWrites=true';
 var dbConnection = mongodb.MongoClient.connect(dbUrl);
+const baseCost = 1000;
     
 
 // Get Posts
@@ -30,6 +31,66 @@ router.get('/main/', async(req, res) => {
     } else {
         await res.status(200).send(responseVal[0].text);
     }
+});
+
+// Get Current Main Post Cost
+router.get('/cost', async(req, res) => {
+    const posts = await loadPostsCollection();
+    var nextCost = baseCost;
+    var responseVal = await posts.find({"paid":true}).sort({"createdAt":-1}).limit(1).toArray();
+    if (responseVal !== 'undefined') {
+        var prevCost = responseVal[0].amountPaid;
+        console.log(`prevCost: ${prevCost}`);
+        if (prevCost !== 'undefined' && prevCost !== 0) {
+            var currTime = new Date();
+            var paidTime = new Date(responseVal[0].paidAt);
+            var timeDiff = currTime - paidTime;
+            var minutesDiff = Math.floor(timeDiff / 60e3); // Minutes ago
+            var numHalves = Math.floor(minutesDiff / 5); // Cut cost in half for every 5 minutes
+            console.log(`currTime:${currTime} paidTime:${paidTime} timeDiff:${timeDiff} minutesDiff:${minutesDiff} numHalves:${numHalves}`);
+
+            // Set the resulting cost to be either the most recently paid amount
+            // halved numHalves times, or the baseCost if it goes below that. If
+            // it has been less than 5 minutes, then we double the prevCost
+            //
+            if (numHalves === 0) {
+                nextCost = Math.min(500000, 2 * prevCost);
+            } else {
+                nextCost = Math.max(baseCost, prevCost / (2 * numHalves));
+            }
+        }
+    }
+    await res.status(200).send(nextCost.toString());
+});
+
+// Get Current Main Caption Cost
+router.get('/captions/cost', async(req, res) => {
+    const posts = await loadCaptionsCollection();
+    var nextCost = baseCost;
+    var responseVal = await posts.find({"paid":true}).sort({"createdAt":-1}).limit(1).toArray();
+    if (responseVal !== 'undefined') {
+        var prevCost = responseVal[0].amountPaid;
+        console.log(`prevCost: ${prevCost}`);
+        if (prevCost !== 'undefined' && prevCost !== 0) {
+            var currTime = new Date();
+            var paidTime = new Date(responseVal[0].paidAt);
+            var timeDiff = currTime - paidTime;
+            var minutesDiff = Math.floor(timeDiff / 60e3); // Minutes ago
+            var numHalves = Math.floor(minutesDiff / 5); // Cut cost in half for every 5 minutes
+            console.log(`currTime:${currTime} paidTime:${paidTime} timeDiff:${timeDiff} minutesDiff:${minutesDiff} numHalves:${numHalves}`);
+
+            // Set the resulting cost to be either the most recently paid amount
+            // halved numHalves times, or the baseCost if it goes below that. If
+            // it has been less than 5 minutes, then we double the prevCost
+            //
+            if (numHalves === 0) {
+                nextCost = Math.min(500000, 2 * prevCost);
+            } else {
+                nextCost = Math.max(baseCost, prevCost / (2 * numHalves));
+            }
+        }
+    }
+    await res.status(200).send(nextCost.toString());
 });
 
 // Get Current Main Caption
@@ -73,7 +134,7 @@ router.post('/update/', async(req, res) => {
                         { $set: {
                             "paid": true, 
                             "paidAt": new Date(),
-                            "amount": response.data.data.amount } },
+                            "amountPaid": response.data.data.amount } },
                         { upsert: true}
                     );
                 }

@@ -4,6 +4,8 @@ const url = 'api/posts/';
 const captionUrl = 'api/posts/captions/';
 const port = process.env.VUE_APP_SERVER_PORT || 8082;
 const host = process.env.VUE_APP_SERVER_HOST || "69.141.47.76";
+const postCostUrl = `http://${host}:${port}/${url}/cost`;
+const captionCostUrl = `http://${host}:${port}/${url}/captions/cost`;
 
 class PostService {
     // Get Posts
@@ -57,15 +59,30 @@ class PostService {
     }
 
     // Create Post
-    static insertPost(text){
+    static async insertPost(text){
         //if (text.slice(-4) === '.jpg') {
+        // STRING SANITIZATION HERE TODO
         //if ((/(http)?s?:?(\/\/[^"']*\.(?:png|jpg|jpeg|gif|png|svg))/).test(text)) {
         if (true) {
+            var postAmount = 1000;
+            var costRes = await new Promise(async (res, rej) => {
+                try {
+                    var costRes = await axios.get(postCostUrl);
+                    console.log('res from cost url: ');
+                    console.log(costRes.data);
+                    postAmount = costRes.data;
+                    res(costRes.data);
+
+                } catch(err) {
+                    rej(err);
+                }
+            });
+            console.log(`postAmount: ${postAmount.data}`);
             var headers = {
                     'Content-Type': 'application/json',
                     'Authorization': 'bd5ecb21-6fba-4cfa-949c-a5c70149ad27'
             };
-            var body = `{ \"amount\": 100, \"callback_url\": \"http://${host}:${port}/api/posts/update\" }`;
+            var body = `{ \"amount\": ${postAmount}, \"callback_url\": \"http://${host}:${port}/api/posts/update\" }`;
 
             console.log(`time to do some lightning!`);
             return axios.post('https://dev-api.opennode.co/v1/charges', body, {headers: headers})
@@ -84,21 +101,31 @@ class PostService {
             .catch(function (error) {
                 console.log(error);
             })
-        } else {
-            return axios.post(url, {
-                text: text
-            });
         }
     }
 
     // Insert caption
-    static insertCaption(text){
+    static async insertCaption(text){
+        var captionAmount = 1000;
+        var costRes = await new Promise(async (res, rej) => {
+            try {
+                var costRes = await axios.get(captionCostUrl);
+                console.log('res from cost url: ');
+                console.log(costRes.data);
+                captionAmount = costRes.data;
+                res(costRes.data);
+
+            } catch(err) {
+                rej(err);
+            }
+        });
+        console.log(`captionAmount: ${captionAmount.data}`);
         var headers = {
                 'Content-Type': 'application/json',
                 'Authorization': 'bd5ecb21-6fba-4cfa-949c-a5c70149ad27'
         };
         console.log(`creating caption with port: ${port}`);
-        var body = `{ \"amount\": 100, \"callback_url\": \"http://${host}:${port}/api/posts/update/captions\" }`;
+        var body = `{ \"amount\": ${captionAmount}, \"callback_url\": \"http://${host}:${port}/api/posts/update/captions\" }`;
 
         console.log(`time to do some caption lightning!`);
         return axios.post('https://dev-api.opennode.co/v1/charges', body, {headers: headers})
