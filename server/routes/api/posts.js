@@ -52,6 +52,7 @@ router.post('/update/', async(req, res) => {
     console.log("UPDATE POST MADE IT WOO");
     const posts = await loadPostsCollection();
     var captionsArray = await posts.find({}).toArray();
+    //var captionsArray = await posts.find({"paid":true}).sort({"createdAt_-1_paid_1":1}).limit(20);
     var notFound = true;
     for (var i = captionsArray.length - 1; notFound && i >= 0; i--) {
         if (captionsArray[i].hasOwnProperty("charge_id")) {
@@ -65,9 +66,11 @@ router.post('/update/', async(req, res) => {
                     response.data.data.status === 'paid') {
                     responseVal = captionsArray[i].text;
                     notFound = false;
+                    var paidAt = new Date();
+                    console.log(`paidAt: ${paidAt}`);
                     posts.findOneAndUpdate(
                         { "charge_id": response.data.data.id },
-                        { $set: {"paid": true } },
+                        { $set: {"paid": true, "paidAt": new Date() } },
                         { upsert: true}
                     );
                 }
@@ -91,6 +94,7 @@ router.post('/update/captions', async(req, res) => {
     console.log("CAPTION UPDATE POST MADE IT WOO");
     const posts = await loadCaptionsCollection();
     var captionsArray = await posts.find({}).toArray();
+    //var captionsArray = await posts.find({"paid":true}).sort({"createdAt_-1_paid_1":1}).limit(20);
     var notFound = true;
     var responseVal = 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/153/high-voltage-sign_26a1.png';
     for (var i = captionsArray.length - 1; notFound && i >= 0; i--) {
@@ -105,9 +109,11 @@ router.post('/update/captions', async(req, res) => {
                     response.data.data.status === 'paid') {
                     responseVal = captionsArray[i].text;
                     notFound = false;
+                    var paidAt = new Date();
+                    console.log(`paidAt: ${paidAt}`);
                     posts.findOneAndUpdate(
                         { "charge_id": response.data.data.id },
-                        { $set: {"paid": true } },
+                        { $set: {"paid": true, "paidAt": paidAt.toISOString() } },
                         { upsert: true}
                     );
                 }
@@ -129,9 +135,11 @@ router.post('/update/captions', async(req, res) => {
 //Add Posts
 router.post('/', async(req, res) => {
     const posts = await loadPostsCollection();
+    var createdAt = new Date();
     await posts.insertOne({
         text: req.body.text,
-        createdAt: new Date(),
+        createdAt: createdAt,
+        paidAt: createdAt,
         charge_id: req.body.charge_id,
         paid: false
     });
@@ -141,9 +149,11 @@ router.post('/', async(req, res) => {
 //Add Caption
 router.post('/captions', async(req, res) => {
     const captions = await loadCaptionsCollection();
+    var createdAt = new Date();
     await captions.insertOne({
         text: req.body.text,
-        createdAt: new Date(),
+        createdAt: createdAt,
+        paidAt: createdAt,
         charge_id: req.body.charge_id,
         paid: false
     });

@@ -11,8 +11,8 @@ Vue.component('qr-code', VueQRCodeComponent)
 Vue.component(VueQrcode.name, VueQrcode);
 Vue.use(VueSwal);
 Vue.use(BootstrapVue);
-const host = process.env.SERVER_IP || "69.141.47.76";
-const port = process.env.PORT || 8082;
+const host = process.env.VUE_APP_SERVER_HOST || "69.141.47.76";
+const port = process.env.VUE_APP_SERVER_PORT || 8082;
 console.log(`SocketIO listening on: ${port}`);
 
 Vue.use(new VueSocketIO({

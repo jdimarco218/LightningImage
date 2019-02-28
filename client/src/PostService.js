@@ -2,6 +2,8 @@ import axios from 'axios';
 
 const url = 'api/posts/';
 const captionUrl = 'api/posts/captions/';
+const port = process.env.VUE_APP_SERVER_PORT || 8082;
+const host = process.env.VUE_APP_SERVER_HOST || "69.141.47.76";
 
 class PostService {
     // Get Posts
@@ -63,8 +65,6 @@ class PostService {
                     'Content-Type': 'application/json',
                     'Authorization': 'bd5ecb21-6fba-4cfa-949c-a5c70149ad27'
             };
-            const port = process.env.SERVER_PORT || 8082;
-        const host = process.env.SERVER_HOST || "69.141.47.76";
             var body = `{ \"amount\": 100, \"callback_url\": \"http://${host}:${port}/api/posts/update\" }`;
 
             console.log(`time to do some lightning!`);
@@ -97,8 +97,7 @@ class PostService {
                 'Content-Type': 'application/json',
                 'Authorization': 'bd5ecb21-6fba-4cfa-949c-a5c70149ad27'
         };
-        const port = process.env.SERVER_PORT || 8082;
-        const host = process.env.SERVER_HOST || "69.141.47.76";
+        console.log(`creating caption with port: ${port}`);
         var body = `{ \"amount\": 100, \"callback_url\": \"http://${host}:${port}/api/posts/update/captions\" }`;
 
         console.log(`time to do some caption lightning!`);
