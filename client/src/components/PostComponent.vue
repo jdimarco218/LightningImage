@@ -2,7 +2,7 @@
   <div class="container">
   <div class="topnav">
     <img class="topimg" src="../assets/lightningEmojiSmall.png">
-    <a href="#">Lightning Image</a>
+    <div class="titleText ml-3 text-x1 text-grey-darker" href="#">Lightning Image</div>
       <div class="topnav-right">
         <a href="#" class="btn btn-block" v-b-modal.modal-faq>FAQ</a>
         <b-modal ref="faqModal" id="modal-faq" ok-only cenetered scrollable title="FAQ">
@@ -19,9 +19,8 @@
     <hr>
     <div class="create-post">
       <div class = "row text-center">
-      <div class="well well-sm imgCostStyle">{{imgCost}} sats</div>
-      <input class="create-post-input" type="text" id="create-post" v-model="text" placeholder="Enter image url">
-      <button class="create-post-btn" v-on:click="createPost" v-b-modal.modal-tall>Post!</button>
+      <input class="create-post-input" type="text" id="create- post" v-model="text" placeholder="Enter image url">
+      <button class="create-post-btn" v-on:click="createPost" v-b-modal.modal-tall>Post for {{imgCost}} sats</button>
       <!-- Modal Component -->
       <b-modal ref="imageModal" id="modal-tall" ok-only centered scrollable title="Lightning invoice">
         <p class="my-4">{{this.invoice}}</p>
@@ -35,9 +34,8 @@
     <hr>
     <div class="create-post-2">
       <div class = "row text-center">
-          <div class="well well-sm capCostStyle">{{captionCost}} sats</div>
           <input class="create-post-input" type="text" id="create-post-2" v-model="inputCaption" placeholder="Enter caption">
-          <button class="create-post-btn" v-on:click="createCaption" v-b-modal.modal-tall-caption>Post!</button>
+          <button class="create-post-btn" v-on:click="createCaption" v-b-modal.modal-tall-caption>Post for {{captionCost}} sats</button>
           <b-modal ref="captionModal" id="modal-tall-caption" ok-only centered scrollable title="Lightning invoice">
             <p class="my-4">{{this.invoice2}}</p>
             <hr>
@@ -151,23 +149,34 @@ div.container {
   max-width: 800px;
   margin: 0 auto;
   background-color: transparent;
+  height: 100%;
 }
 .topnav {
   overflow: hidden;
   background-color:rgb(0, 0, 0);
 }
 
+div.titleText {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 22px 0px;
+  text-decoration: none;
+  font-size: 14px;
+}
+
 .topnav a {
   float: left;
   color: #f2f2f2;
   text-align: center;
-  padding: 14px 16px;
+  padding: 22px 35px;
   text-decoration: none;
-  font-size: 17px;
+  font-size: 14px;
 }
 
 .jBod {
   background-color: transparent;
+  height: 100%;
 }
 
 .modal-body p {
@@ -189,21 +198,21 @@ div.container {
 }
 
 img.topimg {
-  height: 30px;
-  margin-left: 10px;
-  margin-top: 10px;
+  height: 20px;
+  margin-left: 28px;
+  margin-top: 22px;
   float: left;
 }
 
 div.topnav {
-  background-color: rgb(90, 90, 90);
+  background-color: rgb(140, 140, 140);
   overflow: hidden;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  height: 50px;
-  box-shadow: 0 0 25px 0 rgb(90, 90, 90);
+  height: 65px;
+  box-shadow: 0 0 25px 0 rgb(140, 140, 140);
 }
 
 div.header-right {
@@ -211,7 +220,7 @@ div.header-right {
 }
 
 body {
-  margin-top: 50px;
+  margin-top: 65px;
   padding: 10px;
 }
 
@@ -233,23 +242,23 @@ div.post {
 .create-post-input {
   display: block;
   margin-left : auto;
-  margin-right : 0;
+  margin-right : auto;
 }
 
 .imgCostStyle {
   display: block;
   margin-left : auto;
-  margin-right : 0;
+  margin-right : auto;
 }
 .capCostStyle {
   display: block;
   margin-left : auto;
-  margin-right : 0;
+  margin-right : auto;
 }
 
 .create-post-btn {
   display: block;
-  margin-left : 0;
+  margin-left : auto;
   margin-right : auto;
 }
 
