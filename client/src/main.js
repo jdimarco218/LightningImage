@@ -11,11 +11,13 @@ Vue.component('qr-code', VueQRCodeComponent)
 Vue.component(VueQrcode.name, VueQrcode);
 Vue.use(VueSwal);
 Vue.use(BootstrapVue);
+const host = process.env.SERVER_IP || "69.141.47.76";
 const port = process.env.PORT || 8082;
+console.log(`SocketIO listening on: ${port}`);
 
 Vue.use(new VueSocketIO({
     debug: true,
-    connection: `http://localhost:${port}`,
+    connection: `http://${host}:${port}`,
 }))
 Vue.config.productionTip = false
 
