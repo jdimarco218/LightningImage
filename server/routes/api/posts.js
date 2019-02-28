@@ -23,9 +23,13 @@ router.get('/captions', async(req, res) => {
 // Get Current Main Post
 router.get('/main/', async(req, res) => {
     const posts = await loadPostsCollection();
-    var responseVal = 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/153/high-voltage-sign_26a1.png';
-    responseVal = await posts.findOne({"paid":true},{"createdAt_-1_paid_1":1});
-    await res.status(200).send(responseVal.text);
+    var defaultImg = 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/153/high-voltage-sign_26a1.png';
+    var responseVal = await posts.find({"paid":true}).sort({"createdAt":-1}).limit(1).toArray();
+    if (responseVal === 'undefined') {
+        await res.status(200).send(defaultImg);
+    } else {
+        await res.status(200).send(responseVal[0].text);
+    }
 });
 
 // Get Current Main Caption
@@ -85,16 +89,6 @@ router.post('/update/', async(req, res) => {
 // Check for new main caption
 router.post('/update/captions', async(req, res) => {
     console.log("CAPTION UPDATE POST MADE IT WOO");
-    //io.send('caption update sending blah');
-    //io.emit('captionMsg', {
-    //    type: 'update',
-    //    message: 'updated bro'
-    //});
-    //const captions = await loadCaptionsCollection();
-    //captions.update(criteria[])
-    //console.log('caption update req: ');
-    //console.log(req);
-    //await res.status(200).send();
     const posts = await loadCaptionsCollection();
     var captionsArray = await posts.find({}).toArray();
     var notFound = true;
