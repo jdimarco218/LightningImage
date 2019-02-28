@@ -4,7 +4,13 @@
     <img class="topimg" src="../assets/lightningEmojiSmall.png">
     <a href="#">Lightning Image</a>
       <div class="topnav-right">
-        <a href="#">FAQ</a>
+        <a href="#" class="btn btn-block" v-b-modal.modal-faq>FAQ</a>
+        <b-modal ref="faqModal" id="modal-faq" ok-only cenetered scrollable title="FAQ">
+        <p class="my-4"><b>What is this?</b></p>
+        <p class="my-4">Just a picture and a caption. Feel free to pay with lightning to change them</p>
+        <p class="my-4"><b>What does it cost?</b></p>
+        <p class="my-4">The base price is 1000 satoshis. Every post doubles the price. Every five minutes the price is cut in half. The max is 500,000 satoshis.</p>
+        </b-modal>
       </div>
   </div>
   <body class="jBod">
