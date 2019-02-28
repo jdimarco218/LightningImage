@@ -64,7 +64,8 @@ class PostService {
                     'Authorization': 'bd5ecb21-6fba-4cfa-949c-a5c70149ad27'
             };
             const port = process.env.SERVER_PORT || 8082;
-            var body = `{ \"amount\": 100, \"callback_url\": \"http://localhost:${port}/api/posts/update\" }`;
+        const host = process.env.SERVER_HOST || "69.141.47.76";
+            var body = `{ \"amount\": 100, \"callback_url\": \"http://${host}:${port}/api/posts/update\" }`;
 
             console.log(`time to do some lightning!`);
             return axios.post('https://dev-api.opennode.co/v1/charges', body, {headers: headers})
@@ -97,7 +98,8 @@ class PostService {
                 'Authorization': 'bd5ecb21-6fba-4cfa-949c-a5c70149ad27'
         };
         const port = process.env.SERVER_PORT || 8082;
-        var body = `{ \"amount\": 100, \"callback_url\": \"http://69.141.47.76:${port}/api/posts/update/captions\" }`;
+        const host = process.env.SERVER_HOST || "69.141.47.76";
+        var body = `{ \"amount\": 100, \"callback_url\": \"http://${host}:${port}/api/posts/update/captions\" }`;
 
         console.log(`time to do some caption lightning!`);
         return axios.post('https://dev-api.opennode.co/v1/charges', body, {headers: headers})
