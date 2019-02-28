@@ -72,14 +72,12 @@ router.get('/captions/cost', async(req, res) => {
     var responseVal = await posts.find({"paid":true}).sort({"createdAt":-1}).limit(1).toArray();
     if (responseVal !== 'undefined') {
         var prevCost = responseVal[0].amountPaid;
-        console.log(`prevCost: ${prevCost}`);
         if (prevCost !== 'undefined' && prevCost !== 0) {
             var currTime = new Date();
             var paidTime = new Date(responseVal[0].paidAt);
             var timeDiff = currTime - paidTime;
             var minutesDiff = Math.floor(timeDiff / 60e3); // Minutes ago
             var numHalves = Math.floor(minutesDiff / 5); // Cut cost in half for every 5 minutes
-            console.log(`currTime:${currTime} paidTime:${paidTime} timeDiff:${timeDiff} minutesDiff:${minutesDiff} numHalves:${numHalves}`);
 
             // Set the resulting cost to be either the most recently paid amount
             // halved numHalves times, or the baseCost if it goes below that. If
@@ -248,7 +246,8 @@ async function loadPostsCollection() {
         return dbPosts;
     } catch(err) {
         console.log(`Db connection error: ${err}`);
-        return [];
+    
+        return [{"text": "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/153/high-voltage-sign_26a1.png", "paid": true, "createdAt": new Date(), "paidAt": new Date(), "amount": 1000}];
     }
 }
 
@@ -261,7 +260,7 @@ async function loadCaptionsCollection() {
         return dbCaptions;
     } catch(err) {
         console.log(`Db connection error: ${err}`);
-        return [];
+        return [{"text": "Lightning Caption", "paid": true, "createdAt": new Date(), "paidAt": new Date(), "amount": 1000}];
     }
 }
 

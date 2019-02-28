@@ -58,6 +58,9 @@ import PostService from '../PostService';
 import Swal from 'sweetalert2';
 export default {
   name: 'PostComponent',
+  title () {
+    return 'Lightning Image';
+  },
   data() {
     return {
       posts: [],
