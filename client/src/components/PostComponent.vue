@@ -61,9 +61,6 @@ export default {
   title () {
     return 'Lightning Image';
   },
-  iconPaths: {
-       favicon16: 'favicon.ico',
-  },
   data() {
     return {
       posts: [],
@@ -156,7 +153,7 @@ div.container {
   max-width: 800px;
   margin: 0 auto;
   background-color: transparent;
-  height: 100%;
+  min-height: 100%;
 }
 .topnav {
   overflow: hidden;

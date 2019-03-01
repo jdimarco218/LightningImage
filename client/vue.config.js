@@ -9,6 +9,7 @@ module.exports = {
             '/api': {
                 target: `http://${host}:${port}`
             }
-        }
+        },
+        https: true,
     }
 }
