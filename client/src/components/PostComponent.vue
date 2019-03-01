@@ -98,6 +98,7 @@ export default {
     }
   },
   async created() {
+    document.title = "Lightning Image";
     try {
       this.posts = await PostService.getPosts();
       this.getMostRecentPost();
