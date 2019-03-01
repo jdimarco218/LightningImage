@@ -61,6 +61,9 @@ export default {
   title () {
     return 'Lightning Image';
   },
+  iconPaths: {
+       favicon16: 'favicon.ico',
+  },
   data() {
     return {
       posts: [],
