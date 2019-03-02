@@ -10,8 +10,8 @@ var dbCaptions;
 const dbUser = process.env.DB_USER;
 const dbPassword = process.env.DB_PASSWORD;
 const opennodeAuth = process.env.OPENNODE_APIKEY;
-//var dbUrl = `mongodb+srv://${dbUser}:${dbPassword}@cluster0-rigj4.mongodb.net/test?retryWrites=true`;
-//var dbConnection = mongodb.MongoClient.connect(dbUrl);
+var dbUrl = `mongodb+srv://${dbUser}:${dbPassword}@cluster0-rigj4.mongodb.net/test?retryWrites=true`;
+var dbConnection = mongodb.MongoClient.connect(dbUrl);
     
 
 // Get Posts
