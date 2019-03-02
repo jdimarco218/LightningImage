@@ -255,7 +255,7 @@ async function loadPostsCollection() {
 async function loadCaptionsCollection() {
     try {
         if (!dbCaptions) {
-            const client = await mongodb.MongoClient.connect('mongodb+srv://Jeff:DoubleDownml5333!@cluster0-rigj4.mongodb.net/test?retryWrites=true', {useNewUrlParser: true});
+            const client = await mongodb.MongoClient.connect(`mongodb+srv://${dbUser}:${dbPassword}@cluster0-rigj4.mongodb.net/test?retryWrites=true`, {useNewUrlParser: true});
             dbCaptions = client.db('vue_express').collection('captions');
         }
         return dbCaptions;
