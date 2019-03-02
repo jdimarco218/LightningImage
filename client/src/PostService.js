@@ -8,6 +8,7 @@ const port = process.env.VUE_APP_SERVER_PORT || 8082;
 const host = process.env.VUE_APP_SERVER_HOST || "69.141.47.76";
 const postCostUrl = `http://${host}:${port}/${url}/cost`;
 const captionCostUrl = `http://${host}:${port}/${url}/captions/cost`;
+const opennodeAuth = process.env.OPENNODE_APIKEY;
 
 class PostService {
     // Get Posts
@@ -80,7 +81,7 @@ class PostService {
             console.log(`postAmount: ${postAmount.data}`);
             var headers = {
                     'Content-Type': 'application/json',
-                    'Authorization': 'bd5ecb21-6fba-4cfa-949c-a5c70149ad27'
+                    'Authorization': `${opennodeAuth}`
             };
             var body = `{ \"amount\": ${postAmount}, \"callback_url\": \"http://${host}:${port}/api/posts/update\" }`;
 
@@ -123,7 +124,7 @@ class PostService {
         console.log(`captionAmount: ${captionAmount.data}`);
         var headers = {
                 'Content-Type': 'application/json',
-                'Authorization': 'bd5ecb21-6fba-4cfa-949c-a5c70149ad27'
+                'Authorization': `${opennodeAuth}`
         };
         console.log(`creating caption with port: ${port}`);
         var body = `{ \"amount\": ${captionAmount}, \"callback_url\": \"http://${host}:${port}/api/posts/update/captions\" }`;

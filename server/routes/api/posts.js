@@ -4,13 +4,14 @@ const mongodb = require('mongodb');
 
 const router = express.Router();
 
-var dbConnection = mongodb.MongoClient.connect(dbUrl);
 const baseCost = 1000;
 var dbPosts;
 var dbCaptions;
-var dbUser = process.env.DB_USER;
-var dbPassword = process.env.DB_PASSWORD;
-var dbUrl = `mongodb+srv://${dbUser}:${dbPassword}@cluster0-rigj4.mongodb.net/test?retryWrites=true`;
+const dbUser = process.env.DB_USER;
+const dbPassword = process.env.DB_PASSWORD;
+const opennodeAuth = process.env.OPENNODE_APIKEY;
+//var dbUrl = `mongodb+srv://${dbUser}:${dbPassword}@cluster0-rigj4.mongodb.net/test?retryWrites=true`;
+//var dbConnection = mongodb.MongoClient.connect(dbUrl);
     
 
 // Get Posts
@@ -117,10 +118,10 @@ router.post('/update/', async(req, res) => {
     var notFound = true;
     for (var i = captionsArray.length - 1; notFound && i >= 0; i--) {
         if (captionsArray[i].hasOwnProperty("charge_id")) {
-            const chargeUrl = 'https://api.opennode.co/v1/charge/' + captionsArray[i]["charge_id"];
+            const chargeUrl = 'https://dev-api.opennode.co/v1/charge/' + captionsArray[i]["charge_id"];
             await axios.get(chargeUrl, { headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'bd5ecb21-6fba-4cfa-949c-a5c70149ad27'
+                'Authorization': `${opennodeAuth}`
             }})
             .then(response => {
                 if (response.status === 200 &&
@@ -166,7 +167,7 @@ router.post('/update/captions', async(req, res) => {
             const chargeUrl = 'https://api.opennode.co/v1/charge/' + captionsArray[i]["charge_id"];
             await axios.get(chargeUrl, { headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'bd5ecb21-6fba-4cfa-949c-a5c70149ad27'
+                'Authorization': `${opennodeAuth}`
             }})
             .then(response => {
                 if (response.status === 200 &&
@@ -254,7 +255,7 @@ async function loadPostsCollection() {
 async function loadCaptionsCollection() {
     try {
         if (!dbCaptions) {
-            const client = await mongodb.MongoClient.connect(`mongodb+srv://${dbUser}:${dbPassword}@cluster0-rigj4.mongodb.net/test?retryWrites=true`, {useNewUrlParser: true});
+            const client = await mongodb.MongoClient.connect('mongodb+srv://Jeff:DoubleDownml5333!@cluster0-rigj4.mongodb.net/test?retryWrites=true', {useNewUrlParser: true});
             dbCaptions = client.db('vue_express').collection('captions');
         }
         return dbCaptions;
