@@ -4,11 +4,13 @@ const mongodb = require('mongodb');
 
 const router = express.Router();
 
-var dbUrl = 'mongodb+srv://Jeff:DoubleDownml5333!@cluster0-rigj4.mongodb.net/test?retryWrites=true';
 var dbConnection = mongodb.MongoClient.connect(dbUrl);
 const baseCost = 1000;
 var dbPosts;
 var dbCaptions;
+var dbUser = process.env.DB_USER;
+var dbPassword = process.env.DB_PASSWORD;
+var dbUrl = `mongodb+srv://${dbUser}:${dbPassword}@cluster0-rigj4.mongodb.net/test?retryWrites=true`;
     
 
 // Get Posts
@@ -115,7 +117,7 @@ router.post('/update/', async(req, res) => {
     var notFound = true;
     for (var i = captionsArray.length - 1; notFound && i >= 0; i--) {
         if (captionsArray[i].hasOwnProperty("charge_id")) {
-            const chargeUrl = 'https://dev-api.opennode.co/v1/charge/' + captionsArray[i]["charge_id"];
+            const chargeUrl = 'https://api.opennode.co/v1/charge/' + captionsArray[i]["charge_id"];
             await axios.get(chargeUrl, { headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'bd5ecb21-6fba-4cfa-949c-a5c70149ad27'
@@ -161,7 +163,7 @@ router.post('/update/captions', async(req, res) => {
     var responseVal = 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/153/high-voltage-sign_26a1.png';
     for (var i = captionsArray.length - 1; notFound && i >= 0; i--) {
         if (captionsArray[i].hasOwnProperty("charge_id")) {
-            const chargeUrl = 'https://dev-api.opennode.co/v1/charge/' + captionsArray[i]["charge_id"];
+            const chargeUrl = 'https://api.opennode.co/v1/charge/' + captionsArray[i]["charge_id"];
             await axios.get(chargeUrl, { headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'bd5ecb21-6fba-4cfa-949c-a5c70149ad27'
@@ -238,7 +240,7 @@ router.delete('/:id', async(req, res) => {
 async function loadPostsCollection() {
     try {
         if (!dbPosts) {
-            const client = await mongodb.MongoClient.connect('mongodb+srv://Jeff:DoubleDownml5333!@cluster0-rigj4.mongodb.net/test?retryWrites=true', {useNewUrlParser: true});
+            const client = await mongodb.MongoClient.connect(`mongodb+srv://${dbUser}:${dbPassword}@cluster0-rigj4.mongodb.net/test?retryWrites=true`, {useNewUrlParser: true});
             dbPosts = client.db('vue_express').collection('posts');
         }
         return dbPosts;
@@ -252,7 +254,7 @@ async function loadPostsCollection() {
 async function loadCaptionsCollection() {
     try {
         if (!dbCaptions) {
-            const client = await mongodb.MongoClient.connect('mongodb+srv://Jeff:DoubleDownml5333!@cluster0-rigj4.mongodb.net/test?retryWrites=true', {useNewUrlParser: true});
+            const client = await mongodb.MongoClient.connect(`mongodb+srv://${dbUser}:${dbPassword}@cluster0-rigj4.mongodb.net/test?retryWrites=true`, {useNewUrlParser: true});
             dbCaptions = client.db('vue_express').collection('captions');
         }
         return dbCaptions;

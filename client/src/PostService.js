@@ -1,4 +1,6 @@
 import axios from 'axios';
+var xssFilters = require('xss-filters');
+var baseCost = 1000;
 
 const url = 'api/posts/';
 const captionUrl = 'api/posts/captions/';
@@ -60,11 +62,9 @@ class PostService {
 
     // Create Post
     static async insertPost(text){
-        //if (text.slice(-4) === '.jpg') {
-        // STRING SANITIZATION HERE TODO
-        //if ((/(http)?s?:?(\/\/[^"']*\.(?:png|jpg|jpeg|gif|png|svg))/).test(text)) {
         if (true) {
-            var postAmount = 1000;
+            var postAmount = baseCost;
+            text = xssFilters.inHTMLData(text);
             var costRes = await new Promise(async (res, rej) => {
                 try {
                     var costRes = await axios.get(postCostUrl);
@@ -85,7 +85,7 @@ class PostService {
             var body = `{ \"amount\": ${postAmount}, \"callback_url\": \"http://${host}:${port}/api/posts/update\" }`;
 
             console.log(`time to do some lightning!`);
-            return axios.post('https://dev-api.opennode.co/v1/charges', body, {headers: headers})
+            return axios.post('https://api.opennode.co/v1/charges', body, {headers: headers})
             .then(function (response) {
                 if (response.status === 201) {
                     console.log(`new charge_id: ${response.data.data.id}`);
@@ -106,7 +106,8 @@ class PostService {
 
     // Insert caption
     static async insertCaption(text){
-        var captionAmount = 1000;
+        var captionAmount = baseCost;
+        text = xssFilters.inHTMLData(text);
         var costRes = await new Promise(async (res, rej) => {
             try {
                 var costRes = await axios.get(captionCostUrl);
@@ -128,7 +129,7 @@ class PostService {
         var body = `{ \"amount\": ${captionAmount}, \"callback_url\": \"http://${host}:${port}/api/posts/update/captions\" }`;
 
         console.log(`time to do some caption lightning!`);
-        return axios.post('https://dev-api.opennode.co/v1/charges', body, {headers: headers})
+        return axios.post('https://api.opennode.co/v1/charges', body, {headers: headers})
         .then(function (response) {
             if (response.status === 201) {
                 console.log(`new charge_id: ${response.data.data.id}`);

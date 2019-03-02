@@ -4,7 +4,7 @@
     <img class="topimg" src="../assets/lightningEmojiSmall.png">
     <div class="titleText ml-3 text-x1 text-grey-darker" href="#">Lightning Image</div>
       <div class="topnav-right">
-        <a href="#" class="btn btn-block" v-b-modal.modal-faq>FAQ</a>
+        <a href="#" class="btn-sm" v-b-modal.modal-faq>FAQ</a>
         <b-modal ref="faqModal" id="modal-faq" ok-only cenetered scrollable title="FAQ">
         <p class="my-4"><b>What is this?</b></p>
         <p class="my-4">Just a picture and a caption. Feel free to pay with lightning to change them</p>
@@ -26,7 +26,7 @@
         <p class="my-4">{{this.invoice}}</p>
         <hr>
         <p>
-        <qrcode :value='invoice' :options="{ width: 200 }"></qrcode>
+        <qrcode v-if="showPostQR" :value='invoice' :options="{ width: 200 }"></qrcode>
         </p>
       </b-modal>
       </div>
@@ -34,7 +34,7 @@
     <hr>
     <div class="create-post-2">
       <div class = "row text-center">
-          <input class="create-post-input" type="text" id="create-post-2" v-model="inputCaption" placeholder="Enter caption">
+          <input class="create-post-input" type="text" id="create-post-2" v-model="inputCaption" placeholder="Enter caption" maxlength="100">
           <button class="create-post-btn" v-on:click="createCaption" v-b-modal.modal-tall-caption>Post for {{captionCost}} sats</button>
           <b-modal ref="captionModal" id="modal-tall-caption" ok-only centered scrollable title="Lightning invoice">
             <p class="my-4">{{this.invoice2}}</p>
@@ -56,6 +56,7 @@
 <script>
 import PostService from '../PostService';
 import Swal from 'sweetalert2';
+import validator from 'validator';
 export default {
   name: 'PostComponent',
   title () {
@@ -68,7 +69,9 @@ export default {
       text: '',
       imgURL: 'https://imgur.com/gallery/viVcTZ5',
       invoice: 'Loading...',
+      showPostQR: true,
       invoice2: 'Loading...',
+      showCaptionQR: true,
       inputCaption: '',
       caption: 'Lightning Caption',
       imgCost: '1000',
@@ -111,9 +114,17 @@ export default {
   },
   methods: {
     async createPost() {
-      this.invoice = await PostService.insertPost(this.text);
-      this.posts = await PostService.getPosts();
-      await this.getMostRecentPost();
+      this.error = '';
+      this.showPostQR = true;
+      if (validator.isURL(this.text)) {
+        this.invoice = await PostService.insertPost(this.text);
+        this.posts = await PostService.getPosts();
+        await this.getMostRecentPost();
+      } else {
+        this.showPostQR = false;
+        this.invoice = "Please enter a valid image URL";
+        console.log("invalid URL for post");
+      }
     },
     async deletePost(id) {
       await PostService.deletePost(id);
