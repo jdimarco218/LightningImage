@@ -73,7 +73,7 @@ export default {
       invoice2: 'Loading...',
       showCaptionQR: true,
       inputCaption: '',
-      caption: 'Lightning Caption',
+      caption: 'Loading...',
       imgCost: '1000',
       captionCost: '1000'
     }
